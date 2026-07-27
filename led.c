@@ -52,5 +52,5 @@ void changeout(){
 }
 
 /* i know that it's a lot of comments but
- * but trust me the clown meme is correct
+ * but trust me, the clown meme is correct
  */
