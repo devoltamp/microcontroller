@@ -1,0 +1,10 @@
+rem!
+- timer 0, 1, 2
+- all the c codes
+- asm
+- the short block diagram
+- numerical on machine cycle
+- keybouncing & debouncing
+- the rest theory - whatever looks good
+- this time i'm not gonna make it
+-
