@@ -5,3 +5,5 @@ HELLO/
 *.uvproj
 *.Dev
 *.A51
+Project Backups/
+*.workspace
