@@ -71,80 +71,83 @@ void main_loop(){
     delay();
     sample = 0;
 
-    switch (channel_no){
-        case '0':
-            S0 = 0;
-            S1 = 0;
-            // S2 = 0; -- by default zero, cause of the combination
+    /* to change the channel each time */
+    for (channel_no = 0; channel_no <= 2; channel_no++){
+        switch (channel_no){
+            case '0':
+                S0 = 0;
+                S1 = 0;
+                // S2 = 0; -- by default zero, cause of the combination
 
-            ALE = 1;
-            delay();
-            ALE = 0;    /* short duration "HIGH" pulse & the channels will be selected */
-
-            SOC = 1;
-            delay();
-            SOC = 0;    /* short duration "HIGH" pulse so the conversion will be started */
-
-            /* .... waiting for 0.415s max,
-            for the EOC to come */
-
-            while (EOC == 1){
-                OE = 0;
+                ALE = 1;
                 delay();
-                OE = 1;     /* short duration "LOW" pulse */
+                ALE = 0;    /* short duration "HIGH" pulse & the channels will be selected */
 
-                // & with that, result is ready
-                x = P2;
-                break;
-            }
-        case '1':
-            /* same thing */
-            S0 = 1;
-            S1 = 0;
-
-            ALE = 1;
-            delay();
-            ALE = 0;
-
-            SOC = 1;
-            delay();
-            SOC = 0;
-
-            /* .... waiting for 0.415s max,
-            for the EOC to come */
-
-            while (EOC == 1){
-                OE = 0;
+                SOC = 1;
                 delay();
-                OE = 1;
+                SOC = 0;    /* short duration "HIGH" pulse so the conversion will be started */
 
-                // & with that, result is ready
-                y = P2;
-                break;
-            }
-        case '2':
-            /* same thing */
-            S0 = 0;
-            S1 = 1;
+                /* .... waiting for 0.415s max,
+                for the EOC to come */
 
-            ALE = 1;
-            delay();
-            ALE = 0;
+                while (EOC == 1){
+                    OE = 0;
+                    delay();
+                    OE = 1;     /* short duration "LOW" pulse */
 
-            SOC = 1;
-            delay();
-            SOC = 0;
+                    // & with that, result is ready
+                    x = P2;
+                    break;
+                }
+            case '1':
+                /* same thing */
+                S0 = 1;
+                S1 = 0;
 
-            while (EOC == 1){
-                OE = 0;
+                ALE = 1;
                 delay();
-                OE = 1;
-                // & with that, result is ready
-                z = P2;
+                ALE = 0;
+
+                SOC = 1;
+                delay();
+                SOC = 0;
+
+                /* .... waiting for 0.415s max,
+                for the EOC to come */
+
+                while (EOC == 1){
+                    OE = 0;
+                    delay();
+                    OE = 1;
+
+                    // & with that, result is ready
+                    y = P2;
+                    break;
+                }
+            case '2':
+                /* same thing */
+                S0 = 0;
+                S1 = 1;
+
+                ALE = 1;
+                delay();
+                ALE = 0;
+
+                SOC = 1;
+                delay();
+                SOC = 0;
+
+                while (EOC == 1){
+                    OE = 0;
+                    delay();
+                    OE = 1;
+                    // & with that, result is ready
+                    z = P2;
+                    break;
+                }
+            case default:
                 break;
-            }
-        case default:
-            break;
+        }
     }
 }
 
