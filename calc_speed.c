@@ -29,7 +29,8 @@ void ex0_isr() interrupt 0 {
 void timer0_isr() interrupt 1 {
     invalid_speed = 1;
     TR0 = 0;            /* to stop timer */
-    TL0, TH0 = 0x00;
+    TL0 = 0x00; 
+    TH0 = 0x00;
     INT_NO = 0;         /* if not done the event will slip out */
     measure = 0;
 } /* †(2) */
@@ -45,9 +46,9 @@ void measurespeed(){
         led1 = 1;
         led2 = 0;
     }
-    else if (x < highcount){
+    else if (x > highcount){
         led1 = 0;
-        led2 = 0;
+        led2 = 1;
     }
     else{
         actual_speed = (float)x * multi_factor;
@@ -60,13 +61,18 @@ void main(){
     EA = 1;
     EX0 = 1;
     ET0 = 1;
-    TMOD = 0x05;
+
+    TMOD = 0x01;    /* the counter thing wouldn't work */
     IT0 = 1;        /* to make it edge triggered */
 
     while (1){
 
         led1, led2 = 0;
-        if (measure == 1 && invalid_speed == 0){
+        if (invalid_speed == 1){
+            led1 = 1;
+            led2 = 1;
+        }
+        else if (measure == 1){
             measurespeed();
             measure = 0;
         }
