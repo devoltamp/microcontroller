@@ -29,7 +29,7 @@ void ex0_isr() interrupt 0 {
 void timer0_isr() interrupt 1 {
     invalid_speed = 1;
     TR0 = 0;            /* to stop timer */
-    TL0 = 0x00; 
+    TL0 = 0x00;
     TH0 = 0x00;
     INT_NO = 0;         /* if not done the event will slip out */
     measure = 0;
@@ -51,6 +51,7 @@ void measurespeed(){
         led2 = 1;
     }
     else{
+        led1, led2 = 0;
         actual_speed = (float)x * multi_factor;
         lcd_display(actual_speed);
     }
@@ -67,7 +68,6 @@ void main(){
 
     while (1){
 
-        led1, led2 = 0;
         if (invalid_speed == 1){
             led1 = 1;
             led2 = 1;
