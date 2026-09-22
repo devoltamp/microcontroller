@@ -74,7 +74,7 @@ void main_loop(){
     /* to change the channel each time */
     for (channel_no = 0; channel_no <= 2; channel_no++){
         switch (channel_no){
-            case '0':
+            case 0:
                 S0 = 0;
                 S1 = 0;
                 // S2 = 0; -- by default zero, cause of the combination
@@ -99,7 +99,8 @@ void main_loop(){
                     x = P2;
                     break;
                 }
-            case '1':
+                break;
+            case 1:
                 /* same thing */
                 S0 = 1;
                 S1 = 0;
@@ -124,7 +125,8 @@ void main_loop(){
                     y = P2;
                     break;
                 }
-            case '2':
+                break;
+            case 2:
                 /* same thing */
                 S0 = 0;
                 S1 = 1;
@@ -145,7 +147,8 @@ void main_loop(){
                     z = P2;
                     break;
                 }
-            case default:
+                break;
+            default:
                 break;
         }
     }
