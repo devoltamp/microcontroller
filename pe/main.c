@@ -1,4 +1,3 @@
-/* i'll start tomorrow */
 #include <reg51.h>
 #include <stdio.h>
 
