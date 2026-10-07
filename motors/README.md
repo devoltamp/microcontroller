@@ -1,0 +1,5 @@
+- **DC motor**
+- https://electronixforu.com/client_project.php?id=29
+- https://www.slideshare.net/slideshow/dc-motor-interfacing-with-8051-microcontroller/39528256
+- **stepper motor**
+- https://circuitdigest.com/microcontroller-projects/stepper-motor-interfacing-with-8051
