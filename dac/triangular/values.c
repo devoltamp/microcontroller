@@ -46,7 +46,7 @@ int main(void) {
         if (k <= 10) {
             v_analog = 100.0f * (k * T_STEP);
         } else {
-            v_analog = 2.0f - (100.0f * (k * T_STEP));
+            v_analog = 1.0f - (100.0f * (k * T_STEP));
         }
         dac_rounded = (int)roundf(v_analog * DAC_SCALE);
 
