@@ -1,7 +1,7 @@
 /* interfaced DAC, that produces a shifted sine wave of peak 1v */
 #include <reg51.h>
 
-/* do the calculation one more time */
+/* gotta calc. by hand */
 code unsigned char signal[20] = {
     25, 33, 40, 46, 49, 51, 49, 46, 40, 33,
     25, 17, 10,  4,  1,  0,  1,  4, 10, 17
