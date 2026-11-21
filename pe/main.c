@@ -1,52 +1,65 @@
 #include <reg51.h>
-#include <stdio.h>
 
-void setup();
-void control_algo();
+void initialize_peripheral(void);
+void control_algorithm(void);
 
-float v_ref, v_x, v_feed, error_signal;
-float signal_after_ki, integration_out, previous_integration, past_signal_after_ki;
+float V_ref;
+float V_feed;
+float error_signal;
+float kp = 1.0;
+float ki = 0.1;
+float signal_after_ki;
+float past_signal_after_ki;
+float int_out;
+float pre_int_out;
+float pi_out;
+float frac_duty;
 
-void main(){
-    setup();
-    while(1){
-        main_loop();
+sbit pwm = P1^0;
+
+void main(void)
+{
+    initialize_peripheral();
+
+    while (1)
+    {
+        control_algorithm();
     }
 }
 
-void setup(){
+void initialize_peripheral(void)
+{
     EA = 1;
-    ET1 = 1;
-    ET0 = 1;
     EX0 = 1;
     IT0 = 1;
-    TMOD = 0x11;
-    TH0 =
-    TL0 =
-    TH1 =
-    TL1 =
-    TR0 = 1;
-    TR1 = 1;
+    ET0 = 1;
+    ET1 = 1;
+
+    TH0 = 0xE2; // 226 = 256 - (0.3 * 100)
+    TL0 = 0xE2;
+
+    TH1 = 0x9C; // 156
+    TL1 = 0x9C;
+
+    TMOD = 0x22; // 8-bit auto-reload for Timer 0 & Timer 1
 }
 
-void control_algo(){
-    /* // †(1)
-    error_signal = v_ref - v_feed;
-    PI_out = (kp * error_signal) + (ki * ((previous_integration) + (0.5 * (past_error + error_signal))));
-    */
+void control_algorithm(void)
+{
+    error_signal = V_ref - V_feed;
+    signal_after_ki = ki * error_signal;
 
-    // es * ki --> ∫
-    signal_after_ki = ki * signal_after_ki;
-    integration_out = (previous_integration + (0.5 * (past_signal_after_ki + signal_after_ki)));
+    int_out = pre_int_out + 0.5 * (ki * (past_signal_after_ki + signal_after_ki));
     past_signal_after_ki = signal_after_ki;
-    previous_integration = integration_out;
-    /* further equa. pending... */
+    pre_int_out = int_out;
+
+    pi_out = (kp * error_signal) + int_out;
+    frac_duty = (pi_out + 468.0) / 936.0;
 }
 
-/* notes;
- *
- * †(1)
- * in the PI controller es - error signal -- according to the flow of the es from
- * ki & the integrator - that will lead to two seperate equations for the same
- *
- */
+void timer1_isr(void) interrupt 3
+{
+    pwm = 1;
+    TH1 = 0x9C; // 256 - 100 (counts) = 156
+    TL1 = 0x9C;
+}
